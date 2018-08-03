@@ -1,4 +1,4 @@
-class ImSocket {
+class IM {
     constructor(args) {
         this.url = args.url;
         this.reconnect = !!args.reconnect;
@@ -10,7 +10,7 @@ class ImSocket {
         this.tdata = '';
         this.closed = true;
         this.msgStore = {};
-        // this.connect();
+        this.connect();
     }
 
     /**
@@ -75,7 +75,7 @@ class ImSocket {
      * @param e
      */
     onError(e) {
-        this.log(`[onError] ->`, e);
+        this.log(`[onError] -> ${e}`);
         this.trigger('error', e);
     }
 
@@ -96,7 +96,7 @@ class ImSocket {
      * @param e
      */
     onMessage(e) {
-        this.log(`*** [ws.onMessage] ***: `, e.data);
+        this.log(`*** [ws.onMessage] ***: ${e.data}`);
         // 拼接消息，直到出现换行符，说明一条消息接收完成
         this.tdata += e.data;
         if (this.tdata.substr(this.tdata.length - 1) !== `\n`) {
@@ -106,7 +106,7 @@ class ImSocket {
         let cmds = tdata.split(this.msgSeq);
         this.tdata = '';
         if (cmds.length < 2) {
-            this.log(`[receive invalid data] -> `, tdata);
+            this.log(`[receive invalid data] -> ${tdata}`);
             return;
         }
         let args = JSON.parse(cmds[1]);
@@ -126,7 +126,7 @@ class ImSocket {
      * @param e
      */
     onClose(e) {
-        this.log(`[onClose] -> `, e);
+        this.log(`[onClose] -> ${e}`);
         this.trigger('close', e);
         this.closed = true;
         this.log(`[ZZZ] ws is closed...`);
@@ -168,18 +168,18 @@ class ImSocket {
      * @param c
      */
     sendMessage({r, t, i, c}) {
-        if (!r || r.length < 1 || t === undefined || !c) {
-            this.log(`[sms args error] -> `, {r, t, i, c});
+        if (!r || r.length < 1 || t === undefined || c) {
+            this.log(`[sms args error] -> ${{r, t, i, c}}`);
             return;
         }
         this.log(`---------`);
-        this.log(`>>> receiver: `, r);
-        this.log(`>>> msg type: `, t);
-        this.log(`>>> content: `, c);
+        this.log(`>>> receiver: ${r}`);
+        this.log(`>>> msg type: ${t}`);
+        this.log(`>>> content: ${c}`);
         this.log(`---------`);
 
         this.emit('m', {r, t, i, c: Base64.encode(c),});
     }
 }
 
-export default ImSocket;
+export default IM;

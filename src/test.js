@@ -1,26 +1,15 @@
-import Im from './im-core.js';
+import imSocket from './im-websocket.js';
 
 let init = () => {
-    let IM = new Im({
-        showLog: true
+    let im = new imSocket({
+        url: 'wss://test.io:14002/im',
+        reconnect: true,
+        log: true
     });
 
-    IM.util.connect();
-
-    IM.on('error', (e) => {
-        console.log('get event error:', e)
+    im.on('error', (e) => {
+        console.log('get event:', e)
     });
-
-    IM.on('open', (e) => {
-        console.log('get event open:', e)
-        IM.send({
-            i: 1,
-            t: 2,
-            r: ['222'],
-            c: 4
-        })
-    });
-
 };
 
 init();
