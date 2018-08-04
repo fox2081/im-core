@@ -1,6 +1,9 @@
 {
   "name": "im-core",
   "version": "0.0.1",
+  "scripts": {
+    "dev": "http-server"
+  },
   "dependencies": {},
   "devDependencies": {
     "js-base64": "^2.4.8"
