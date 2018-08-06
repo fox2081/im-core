@@ -1,21 +1,26 @@
 import ImConfig from './im-config.js';
 import ImSocket from './im-websocket.js';
+import ImUtil from './im-util.js';
 
+/**
+ * 即时通讯核心类
+ */
 class IM {
     constructor(args) {
         this.imConfig = new ImConfig(args);
-        this.imSocket = new ImSocket(this.imConfig.getConfig());
+        this.config = this.imConfig.getConfig();
+        this.imSocket = new ImSocket(this.config);
+        this.imUtil = new ImUtil(this.config);
         this.bindSocketEvents();
         this.init();
     }
 
-
-    iUtil() {
+    getApi() {
         return {
             connect: () => {
                 this.imSocket.connect();
             }
-        }
+        };
     }
 
     bindSocketEvents() {
@@ -24,7 +29,8 @@ class IM {
     }
 
     init() {
-        this.util = this.iUtil();
+        this.util = this.imUtil;
+        this.api = this.getApi();
     }
 }
 
