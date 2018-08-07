@@ -1,6 +1,7 @@
 import ImConfig from './im-config.js';
 import ImSocket from './im-websocket.js';
 import ImUtil from './im-util.js';
+import ImHttp from './im-http.js';
 
 /**
  * 即时通讯核心类
@@ -11,6 +12,7 @@ class IM {
         this.config = this.imConfig.getConfig();
         this.imSocket = new ImSocket(this.config);
         this.imUtil = new ImUtil(this.config);
+        this.imHttp = new ImHttp(this.config);
         this.bindSocketEvents();
         this.init();
     }
@@ -19,8 +21,17 @@ class IM {
         return {
             connect: () => {
                 this.imSocket.connect();
+            },
+            markMsgRead: ({i, a}) => {
+                this.imSocket.markRead(i, a);
             }
         };
+    }
+
+    getHttp() {
+        return {
+            getUnread: this.imHttp.getUnread.bind(this.imHttp)
+        }
     }
 
     bindSocketEvents() {
@@ -31,6 +42,7 @@ class IM {
     init() {
         this.util = this.imUtil;
         this.api = this.getApi();
+        this.http = this.getHttp();
     }
 }
 

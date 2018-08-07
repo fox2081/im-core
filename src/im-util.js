@@ -3,6 +3,10 @@ class ImUtil {
 
     }
 
+    getToken() {
+        return 'ABCDEFG0';
+    }
+
     queryString(url, name) {
         let result = url.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
         if (!result) {
@@ -60,18 +64,15 @@ class ImUtil {
         return new URLSearchParams(arr).toString();
     }
 
-    request(url, data = {}, options = {}) {
-        let method = 'GET';
-        if (data.params) {
-            url += '?' + this.obj2String(data.params);
+    request({url, method = 'GET', params = {}, extra = {}}) {
+        let options = {};
+        if (params) {
+            url += '?' + this.obj2String(params);
         }
-        if (data.data) {
-            method = 'POST';
-            options.body = JSON.stringify(data.data);
+        if (extra.data) {
+            options.body = JSON.stringify(options.data);
         }
-        return fetch(url, Object.assign({
-            method
-        }, options)).then(rs => {
+        return fetch(url, options).then(rs => {
             return rs.json();
         }).then(data => {
             return new Promise((resolve, reject) => {

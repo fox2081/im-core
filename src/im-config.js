@@ -9,7 +9,8 @@ const userType = new Map([
 const defaultConfig = {
     msgSeq: '^-^',
     url: 'ws://localhost:14001',
-    userType
+    userType,
+    source: 'PC'
 };
 
 class ImConfig {
