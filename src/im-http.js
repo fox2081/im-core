@@ -6,7 +6,6 @@ class ImHttp {
     constructor(config = {}) {
         this.config = config;
         this.imUtil = new ImUtil(config);
-        console.log(this.imUtil)
     }
 
     expandBasicParams() {
@@ -45,6 +44,24 @@ class ImHttp {
         return this.imUtil.request(
             {
                 url: srvList.get('main') + 'usr/api/listUinfo',
+                method: 'GET',
+                params
+            }
+        )
+    }
+
+    /**
+     * 获取群组用户信息
+     * @param params
+     * @param ext
+     * @returns {*}
+     */
+    getGroupUserList(params = {}, ext = {}) {
+        params.token = this.imUtil.getToken();
+        Object.assign(params, this.expandBasicParams());
+        return this.imUtil.request(
+            {
+                url: srvList.get('main') + 'usr/api/listImGroup',
                 method: 'GET',
                 params
             }
