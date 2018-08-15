@@ -26,13 +26,18 @@ class IM {
             },
             markMsgRead: ({i, a}) => {
                 this.imSocket.markRead(i, a);
+            },
+            updateContact: (args) => {
+
             }
         };
     }
 
     getHttp() {
         return {
-            getUnread: this.imHttp.getUnread.bind(this.imHttp)
+            getUnread: this.imHttp.getUnread.bind(this.imHttp),
+            getUserInfo: this.imHttp.getUserInfo.bind(this.imHttp),
+            getGroupUserList: this.imHttp.getGroupUserList.bind(this.imHttp),
         }
     }
 

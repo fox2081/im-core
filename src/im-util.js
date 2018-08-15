@@ -3,10 +3,20 @@ class ImUtil {
 
     }
 
+    /**
+     * 获取登录token
+     * @returns {string}
+     */
     getToken() {
         return 'ABCDEFG0';
     }
 
+    /**
+     * 获取url参数
+     * @param url
+     * @param name
+     * @returns {string}
+     */
     queryString(url, name) {
         let result = url.match(new RegExp('[\?\&]' + name + '=([^\&]+)', 'i'));
         if (!result) {
@@ -15,6 +25,11 @@ class ImUtil {
         return decodeURIComponent(result[1]);
     }
 
+    /**
+     * 获取Cookies
+     * @param sName
+     * @returns {*}
+     */
     getCookie(sName) {
         let aCookie = document.cookie.split('; ');
         for (let i = 0; i < aCookie.length; i += 1) {
@@ -29,6 +44,13 @@ class ImUtil {
         return null;
     }
 
+    /**
+     * 转换时间
+     * @param text
+     * @param displaySecond
+     * @param format
+     * @returns {string}
+     */
     parseTime(text, displaySecond, format) {
         let d = new Date(text);
         let year = d.getFullYear();
@@ -57,6 +79,13 @@ class ImUtil {
         return `${[year, month, day].join('-')} ${displaySecond ? [hour, minute, second].join(':') : [hour, minute].join(':')}`;
     }
 
+    /**
+     * 请求参数 params 转
+     * @param obj
+     * @param arr
+     * @param idx
+     * @returns {string}
+     */
     obj2String(obj, arr = [], idx = 0) {
         for (let item in obj) {
             arr[idx++] = [item, obj[item]];
@@ -64,10 +93,18 @@ class ImUtil {
         return new URLSearchParams(arr).toString();
     }
 
+    /**
+     * 请求fetch的封装
+     * @param url
+     * @param method
+     * @param params
+     * @param extra
+     * @returns {Promise<Response>}
+     */
     request({url, method = 'GET', params = {}, extra = {}}) {
         let options = {};
         if (params) {
-            url += '?' + this.obj2String(params);
+            url += '?' + ImUtil.obj2String(params);
         }
         if (extra.data) {
             options.body = JSON.stringify(options.data);
