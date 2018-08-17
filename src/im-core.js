@@ -27,8 +27,27 @@ class IM {
             markMsgRead: ({i, a}) => {
                 this.imSocket.markRead(i, a);
             },
+            // todo:
             updateContact: (args) => {
 
+            },
+            updateSelfInfo: (self) => {
+
+            },
+            getUserInfo: (uid) => {
+                return this.http.getUserInfo({
+                    uid
+                }).then(rs => {
+                    return rs.data;
+                }, err => {
+                    console.log(err);
+                    return null;
+                })
+            },
+            getSender: (uid) => {
+                if (this.data.allUsers[uid]) {
+                    return this.data.allUsers[uid];
+                }
             }
         };
     }
