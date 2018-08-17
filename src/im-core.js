@@ -32,7 +32,7 @@ class IM {
 
             },
             updateSelfInfo: (self) => {
-
+                this.data.self = self;
             },
             getUserInfo: (uid) => {
                 return this.http.getUserInfo({
