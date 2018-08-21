@@ -104,7 +104,7 @@ class ImUtil {
     request({url, method = 'GET', params = {}, extra = {}}) {
         let options = {};
         if (params) {
-            url += '?' + ImUtil.obj2String(params);
+            url += '?' + this.obj2String(params);
         }
         if (extra.data) {
             options.body = JSON.stringify(options.data);
