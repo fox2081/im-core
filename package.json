@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "http-server"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "js-base64": "^2.4.8"
-  }
+  },
+  "devDependencies": {}
 }

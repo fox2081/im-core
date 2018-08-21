@@ -37,12 +37,7 @@ class IM {
             getUserInfo: (uid) => {
                 return this.http.getUserInfo({
                     uid
-                }).then(rs => {
-                    return rs.data;
-                }, err => {
-                    console.log(err);
-                    return null;
-                })
+                }).then(rs => rs.data, err => null);
             },
             getSender: (uid) => {
                 if (this.data.allUsers[uid]) {
