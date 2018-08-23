@@ -15,6 +15,7 @@ class IM {
         this.imUtil = new ImUtil(this.config);
         this.imHttp = new ImHttp(this.config);
         this.imData = new ImData(this.config);
+        this.eventList = {};
         this.bindSocketEvents();
         this.init();
     }
@@ -64,11 +65,38 @@ class IM {
         this.send = this.imSocket.sendMessage.bind(this.imSocket);
     }
 
+    handleEvent(name, fn, context, once) {
+        let eventList = this.eventList;
+        if (eventList[name] && eventList[name].length) {
+            eventList[name].push({fn: fn, context: context || this, once: once});
+        } else {
+            eventList[name] = [{fn: fn, context: context || this, once: once}];
+        }
+        return this;
+    }
+
+    triggerEvent(name) {
+        let arg = [].slice.call(arguments, 1);
+        let eventList = this.eventList;
+        if (eventList[name] && eventList[name].length) {
+            eventList.keys(eventList).map(key => {
+                let item = eventList[key];
+                if (item.once && item.called) {
+                    return;
+                }
+                item.fn.apply(item.context, arg);
+                item.called = true;
+            })
+        }
+    }
+
     init() {
         this.util = this.imUtil;
         this.data = this.getData();
         this.api = this.getApi();
         this.http = this.getHttp();
+        this.on = this.handleEvent;
+        this.trigger = this.triggerEvent;
     }
 }
 
