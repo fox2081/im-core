@@ -61,7 +61,7 @@ class IM {
     }
 
     bindSocketEvents() {
-        this.on = this.imSocket.on.bind(this.imSocket);
+        this.wsOn = this.imSocket.on.bind(this.imSocket);
         this.send = this.imSocket.sendMessage.bind(this.imSocket);
     }
 

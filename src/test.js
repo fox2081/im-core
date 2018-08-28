@@ -7,11 +7,11 @@ let init = () => {
 
     IM.api.connect();
 
-    IM.on('error', (e) => {
+    IM.wsOn('error', (e) => {
         console.log('get event error:', e)
     });
 
-    IM.on('open', (e) => {
+    IM.wsOn('open', (e) => {
         console.log('get event open:', e)
         IM.send({
             i: 1,
