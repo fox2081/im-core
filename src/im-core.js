@@ -79,7 +79,7 @@ class IM {
         let arg = [].slice.call(arguments, 1);
         let eventList = this.eventList;
         if (eventList[name] && eventList[name].length) {
-            eventList.forEach(item => {
+            eventList[name].forEach(item => {
                 if (item.once && item.called) {
                     return;
                 }
