@@ -21,15 +21,23 @@ let init = () => {
         })
     });
 
+    Im.on('getMsg', (data) => {
+        console.log('getMsg', data);
+    });
+
+    Im.on('getErr', (data) => {
+        console.log('getErr', data);
+    });
+
     IM.http.getUnread({
         ret_count: 1,
         ret_unread_msg: 1,
         t: '122,114,115,119,125,126',
         tid: 'u1',
     }).then((rs) => {
-        console.log('rs', rs);
+        Im.trigger('getMsg', rs);
     }).catch(err => {
-        console.log('err', err);
+        Im.trigger('getErr', err);
     });
 
     // IM.util.request(

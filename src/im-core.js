@@ -2,7 +2,10 @@ import ImConfig from './im-config.js';
 import ImSocket from './im-websocket.js';
 import ImUtil from './im-util.js';
 import ImHttp from './im-http.js';
-import ImData from "./im-data.js";
+import ImData from './im-data.js';
+import ImEvent from './im-event.js'
+
+let eventList = {};
 
 /**
  * 即时通讯核心类
@@ -65,8 +68,7 @@ class IM {
         this.send = this.imSocket.sendMessage.bind(this.imSocket);
     }
 
-    handleEvent(name, fn, context, once) {
-        let eventList = this.eventList;
+    static on(name, fn, context, once) {
         if (eventList[name] && eventList[name].length) {
             eventList[name].push({fn: fn, context: context || this, once: once});
         } else {
@@ -75,9 +77,8 @@ class IM {
         return this;
     }
 
-    triggerEvent(name) {
+    static trigger(name) {
         let arg = [].slice.call(arguments, 1);
-        let eventList = this.eventList;
         if (eventList[name] && eventList[name].length) {
             eventList[name].forEach(item => {
                 if (item.once && item.called) {
@@ -94,8 +95,6 @@ class IM {
         this.data = this.getData();
         this.api = this.getApi();
         this.http = this.getHttp();
-        this.on = this.handleEvent;
-        this.trigger = this.triggerEvent;
     }
 }
 
