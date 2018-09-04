@@ -3,22 +3,21 @@ import ImSocket from './im-websocket.js';
 import ImUtil from './im-util.js';
 import ImHttp from './im-http.js';
 import ImData from './im-data.js';
-import ImEvent from './im-event.js'
+import ImEvent from './im-event.js';
 
-let eventList = {};
 
 /**
  * 即时通讯核心类
  */
-class IM {
+class IM extends ImEvent {
     constructor(args) {
+        super();
         this.imConfig = new ImConfig(args);
         this.config = this.imConfig.getConfig();
         this.imSocket = new ImSocket(this.config);
         this.imUtil = new ImUtil(this.config);
         this.imHttp = new ImHttp(this.config);
         this.imData = new ImData(this.config);
-        this.eventList = {};
         this.bindSocketEvents();
         this.init();
     }
@@ -68,27 +67,7 @@ class IM {
         this.send = this.imSocket.sendMessage.bind(this.imSocket);
     }
 
-    static on(name, fn, context, once) {
-        if (eventList[name] && eventList[name].length) {
-            eventList[name].push({fn: fn, context: context || this, once: once});
-        } else {
-            eventList[name] = [{fn: fn, context: context || this, once: once}];
-        }
-        return this;
-    }
 
-    static trigger(name) {
-        let arg = [].slice.call(arguments, 1);
-        if (eventList[name] && eventList[name].length) {
-            eventList[name].forEach(item => {
-                if (item.once && item.called) {
-                    return;
-                }
-                item.fn.apply(item.context, arg);
-                item.called = true;
-            })
-        }
-    }
 
     init() {
         this.util = this.imUtil;
