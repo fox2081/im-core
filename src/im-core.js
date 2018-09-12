@@ -36,9 +36,13 @@ class IM {
                 this.data.self = self;
             },
             getUserInfo: (uid) => {
-                return this.http.getUserInfo({
-                    uid
-                }).then(rs => rs.data, err => null);
+                if (this.data.allUsers[uid]) {
+                    return new Promise(resolve => resolve(this.data.allUsers[uid]))
+                } else {
+                    return this.http.getUserInfo({
+                        uid
+                    }).then(rs => rs.data, err => null);
+                }
             },
             getSender: (uid) => {
                 if (this.data.allUsers[uid]) {
